@@ -15,23 +15,75 @@
     <link rel="stylesheet" href="css/estilo_4.css">
     <script src="js/swapi.js" ></script>
     <script src="js/script.js" ></script>
-    
+    <script src="js/suggestions.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script>
+    $( function() {
+      $.widget( "custom.catcomplete", $.ui.autocomplete, {
+        _create: function() {
+          this._super();
+          this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
+        },
+        _renderMenu: function( ul, items ) {
+          var that = this,
+            currentCategory = "";
+          $.each( items, function( index, item ) {
+            var li;
+            if ( item.category != currentCategory ) {
+              ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+              currentCategory = item.category;
+            }
+            li = that._renderItemData( ul, item );
+            if ( item.category ) {
+              li.attr( "aria-label", item.category + " : " + item.label );
+            }
+          });
+        }
+      });
+      var data = [
+        { label: "Luke Skywalker",},
+        { label: "C-3PO",},
+        { label: "R2-D2",},
+        { label: "Darth Vader" },
+        { label: "Leia Organa" },
+        { label: "Owen Lars" },
+        { label: "Beru Whitesun lars", },
+        { label: "R5-D4", },
+        { label: "Biggs Darklighter", },
+        { label: "Obi-Wan Kenobi", }
+      ];
+   
+      $( "#nombre_personaje" ).catcomplete({
+        delay: 0,
+        source: data
+      });
+    } );
+    </script>
+
+
+
+
 </head>
 
 <body>
     <header>
         <div class="contenedor d-flex justify-content-around">
             <h1 style="text-align: right; margin-left: 450px;">STAR WARS</h1>
- 
-            <div class="form-outline input-group mb-3" style="width: 300px;">
-                <input type="text" id="nombre_personaje"class="form-control" style="margin-top: 5px;" />
-                <button onclick="boton_buscar()" class="btn btn-outline-secondary" type="button" id="button-addon1">Button</button>
+            <div class="wrapper">
+            <div class="search-input form-outline input-group mb-3" style="width: 300px;">
+                <input type="text" id="nombre_personaje"class="form-control" style="margin-top: 5px;" placeholder="Buscar" />
+                <div class="autocom-box">
 
+                </div>
+
+                <button onclick="borrar();boton_buscar();" class="btn btn-outline-secondary" type="button" id="button-addon1">Buscar</button>
             </div>
-
+            </div>
         </div>
     </header>
-
     <main>
         <section id="banner">
             <div class="slider">
@@ -49,13 +101,85 @@
         <!--        <a href="#">lEER MAS</a>-->
             </div>
         </section>
-        <div class="card" style="width: 18rem;">
-            <img src="personajes/Luke.jpg" class="card-img-top" alt="...">
+        <section class="row align-items-start">
+        <div id="card_Lu" class="card col-3" style="width: 18rem; margin-left: 60px;">
+            <img src="personajes/Luke.jpg" class="card-img-top" style="height: 18rem" alt="...">
             <div >
-                <p id="card_personaje" style="color: black;"></p>
+                <p id="card_personajeLu" style="color: black;"></p>
             </div>    
           </div>
+
+          <div id="card_C-" class="card col-3" style="width: 18rem; margin-left: 60px;">
+            <img src="personajes/c-3p0.jpg" class="card-img-top" style="height: 18rem;">
+            <div >
+                <p id="card_personajeC-" style="color: black;"></p>
+            </div>    
+          </div>
+
+          <div id="card_R2"  class="card col-3" style="width: 18rem; margin-left: 60px">
+            <img src="personajes/r2-d2.jpg" class="card-img-top " style="height: 18rem" alt="...">
+            <div >
+                <p id="card_personajeR2" style="color: black;"></p>
+            </div>    
+          </div>
+
+          <div id="card_Da" class="card col-3" style="width: 18rem;  margin-left: 60px;">
+            <img src="personajes/darth_vader.jpg" class="card-img-top" style="height: 18rem" alt="...">
+            <div >
+                <p id="card_personajeDa" style="color: black;"></p>
+            </div>    
+          </div>
+        </section>
+
+        <section class="row align-items-start">
+          <div id="card_Le"  class="card" style="width: 18rem; margin-left: 60px;">
+            <img src="personajes/leia_organo.jpg" class="card-img-top" style="height: 18rem" alt="...">
+            <div >
+                <p id="card_personajeLe" style="color: black;"></p>
+            </div>    
+          </div>
+
+          <div id="card_Ow"  class="card" style="width: 18rem; margin-left: 60px;">
+            <img src="personajes/OwenLars.jpg" class="card-img-top" style="height: 18rem" alt="...">
+            <div >
+                <p id="card_personajeOw" style="color: black;"></p>
+            </div>    
+          </div>
+
+          <div id="card_Be"  class="card" style="width: 18rem; margin-left: 60px;">
+            <img src="personajes/beru_whitesu.jpg" class="card-img-top" style="height: 18rem" alt="...">
+            <div >
+                <p id="card_personajeBe" style="color: black;"></p>
+            </div>    
+          </div>
+
+          <div id="card_R5" class="card" style="width: 18rem; margin-left: 60px;">
+            <img src="personajes/r5-d4.jpg" class="card-img-top" style="height: 18rem" alt="...">
+            <div >
+                <p id="card_personajeR5" style="color: black;"></p>
+            </div>    
+          </div>
+        </section>
+        <section class="row align-items-start">         
+          <div id="card_Bi"  class="card" style="width: 18rem; margin-left: 60px;">
+            <img src="personajes/biggs_darklighter.jpg" class="card-img-top" style="height: 18rem" alt="...">
+            <div >
+                <p id="card_personajeBi" style="color: black;"></p>
+            </div>    
+          </div>
+
+          <div id="card_Ob" class="card" style="width: 18rem; margin-left: 60px;">
+            <img src="personajes/obi_wan_kenobi.jpg" class="card-img-top" style="height: 18rem" alt="...">
+            <div >
+                <p id="card_personajeOb" style="color: black;"></p>
+            </div>    
+          </div>
+        </section> 
           
+
+
+
+        
     
     </main>
  <footer>
